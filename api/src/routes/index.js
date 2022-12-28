@@ -91,25 +91,4 @@ router.get('/', async (req, res) => {
         return res.status(404).send('Input Invalido');
     }
 })
-
-// GET /recipes/{idReceta}:
-// Obtener el detalle de una receta en particular
-// Debe traer solo los datos pedidos en la ruta de detalle de receta
-// Incluir los tipos de dieta asociados
-router.get('/:id', async (req, res, next) => {
-    const { id } = req.params;
-    let validate = id.includes("-"); // Si tiene el guion es pq se encuentra en base de datos.
-    try {
-        if (validate) {
-            let recipeDB = await get_DataBaseID(id);
-            return res.status(200).send(recipeDB);
-        } else { // Se encuentra en la API
-            let recipeAPI = await get_ApiID(id);
-            return res.status(200).send(recipeAPI);
-        }
-    } catch (err) {
-        return res.status(404).send("IP incorrecta");
-    }
-});
-
 module.exports = router;
