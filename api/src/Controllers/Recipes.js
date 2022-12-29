@@ -22,7 +22,12 @@ const getApiInfo = async () => {
             healthScore: ele.healthScore,
             dishesTypes: ele.dishTypes,
             diets: ele.diets?.map(ele => ele),
-            steps: (ele.analyzedInstructions[0] && ele.analyzedInstructions[0].steps?ele.analyzedInstructions[0].steps.map(item=>item.step).join(" \n"):''),
+            steps: ele.analyzedInstructions[0]?.steps.map(e => {
+                return {
+                    number: e.number,
+                    step: e.number,
+                }
+            }),
         }
     })
     return apiInfo;

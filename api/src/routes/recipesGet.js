@@ -59,7 +59,7 @@ router.get('/id', async (req, res) => {
 
     }
     catch{
-        return res.status(400).send('Error');
+        return res.status(404).send("No se encontro la receta");
     }
 })
 
