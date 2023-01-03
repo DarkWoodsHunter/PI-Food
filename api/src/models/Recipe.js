@@ -17,17 +17,12 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     summary: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
 
-    score: {
-      type: DataTypes.FLOAT,
-      allowNull: true
-    },
-
     healthScore:{
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: true
     },
 

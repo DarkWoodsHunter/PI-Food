@@ -32,10 +32,11 @@ export default function paginated({recipesPage, allRecipes, paged, setPage, page
                     <ul>
                         {
                             totalPages?.map((place) => {
-                                <li key = {place}>
+                                return(
+                                    <li key = {place}>
                                     <button onClick={() => currentPage(place)}>{place}</button>
-                                </li>
-                            })
+                                    </li>
+                                )})
                         }
                     </ul>
                 </nav>

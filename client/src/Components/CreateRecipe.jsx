@@ -1,5 +1,5 @@
 import React, { useEffect} from "react";
-import { connect, Connect } from "react-redux";
+import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { createRecipe, getDiet} from "../Actions/index";

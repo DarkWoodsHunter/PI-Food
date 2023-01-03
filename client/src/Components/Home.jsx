@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Recipe from "./Recipe";
-import searchBar from "./SearchBar";
-import paginated from "./Paginated";
+import SearchBar from "./SearchBar";
+import Paginated from "./Paginated";
 import { useState, useEffect} from "react";
-import { Connect } from "react-redux";
-import { getRecipes,filterbyDiet,orderByAlphabet,orderByScore } from "../Actions";
+import { getRecipes, filterbyDiet, orderByAlphabet, orderByScore } from "../Actions/index";
+import { connect } from "react-redux";
 
 
 
-export default function Home (){
+function Home (props){
 
     //Show 9 recipes per page
     const [page, setPage] = useState(1);
@@ -24,6 +24,7 @@ export default function Home (){
 
     useEffect(() => {
         props.getRecipes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.getRecipes])
 
     let handleClick = (event) => {
@@ -47,7 +48,7 @@ export default function Home (){
 
     return(
         <div>
-            <searchBar/>
+            <SearchBar/>
             
             <div>
                 <Link to="/recipe">
@@ -87,6 +88,7 @@ export default function Home (){
                     <option value="desc">Higher to Lower</option>
                 </select>
             </div>
+            <button onClick={handleClick()}>Clear</button>
 
             {
                 props.allRecipes.length === 0 ?
@@ -112,8 +114,27 @@ export default function Home (){
                     }
                 </div>
             }
-
+            <hr></hr>
+            <div>
+                <Paginated recipesPage={recipePage} allRecipes={props.allRecipes.length} paged={currentPage} setPage={setPage} page={page}></Paginated>
+            </div>
         </div>
     )
 }
 
+function mapStateToProps(state) {
+    return {
+        allRecipes: state.allRecipes,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getRecipes: () => dispatch(getRecipes()),
+        filterbyDiet: (payload) => dispatch(filterbyDiet(payload)),
+        orderByAlphabet: (payload) => dispatch(orderByAlphabet(payload)),
+        orderByScore: (payload) => dispatch(orderByScore(payload)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -1,15 +1,15 @@
 import React from "react";
 import { useState } from "react";
 import { getRecipeByName } from "../Actions";
-import { useDispatch } from "react-redux"; 
+import { useDispatch } from "react-redux";
 
-export default function searchBar() {
+export default function SearchBar() {
     const dispatch = useDispatch();
     const [ input, setInput] = useState("");
 
     let handleChange = (event) => {
         event.preventDefault();
-        setInput(e.target.value);
+        setInput(event.target.value);
         //dispatch(getRecipeByName(input));
     }
 
