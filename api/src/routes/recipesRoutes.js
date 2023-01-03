@@ -3,6 +3,7 @@ const { getAllRecipesInfo, postNewRecipe} = require ("./controllersRoutes");
 
 const router = Router();
 
+//GET recipes/name="...":
 router.get("/", async (req, res) => {
     try{
         const {name} = req.query;
@@ -21,6 +22,7 @@ router.get("/", async (req, res) => {
     }
 });
 
+//GET /recipes/{idReceta}:
 router.get("/:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -36,6 +38,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// POST /recipes
 router.post("/", async (req, res) => {
     const objRecipe = req.body;
     try {

@@ -4,6 +4,7 @@ const {getBDdietInfo} = require ("./controllersRoutes");
 
 const router = Router;
 
+//GET /diets
 router.get("/", async (req, res) => {
     try {
         const infoDB = await getBDdietInfo();
