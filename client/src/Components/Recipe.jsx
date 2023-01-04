@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+//import { useDispatch } from "react-redux";
 
 
 export default function Recipe({id, image, name, healthScore, diets}){
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     return (
         <div>

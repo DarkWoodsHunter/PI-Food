@@ -2,7 +2,7 @@ const { Router } = require("express");
 const axios = require("axios");
 const {getBDdietInfo} = require ("./controllersRoutes");
 
-const router = Router;
+const router = Router();
 
 //GET /diets
 router.get("/", async (req, res) => {

@@ -27,7 +27,7 @@ export default function SearchBar() {
 
             <div>
                 <input type="search" placeholder="Search Recipe" value={input} onChange={event => handleChange(event)}/>
-                <button type="submit" onClick={event => handleSummit(event)}>Buscar</button>
+                <button type="submit" onClick={event => handleSummit(event)}>Search</button>
             </div>
         </div>
     )

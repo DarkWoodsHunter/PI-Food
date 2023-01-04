@@ -11,15 +11,16 @@ export const ORDER_BY_SCORE = "ORDER_BY_SCORE";
 //export const CREATE_RECIPE = "CREATE_RECIPE";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
 export const CLEAR_RECIPES = "CLEAR_RECIPES";
+export const PAGINATED_ACTION = "PAGINATED_ACTION";
 
 
 
 export function getRecipes() {
     return async function(dispatch){
         try {
-            const res = await axios.get(`/recipes`);
+            const res = await axios.get("/recipes");
             return dispatch({
-                type: 'GET_RECIPES',
+                type: GET_RECIPES,
                 payload: res.data,
             });
         } catch (error){
@@ -33,7 +34,7 @@ export function getRecipeByName(name) {
         try {
             const res = await axios.get(`/recipes/?name=${name}`)
             return dispatch({
-                type: "GET_RECIPE_BY_NAME",
+                type: GET_RECIPE_BY_NAME,
                 payload: res.data,
             });
         } catch(error) {
@@ -47,7 +48,7 @@ export function getRecipeByDetail(detail) {
         try{
             const res = await axios.get(`/recipes/${detail}`)
             return dispatch({
-                type: "GET_RECIPE_DETAILS",
+                type: GET_RECIPE_DETAILS,
                 payload: res.data,
             })
         } catch (error) {
@@ -60,9 +61,9 @@ export function getRecipeByDetail(detail) {
 export function getDiet() {
     return async function(dispatch){
         try{
-            const res = await axios.get(`/diets`)
+            const res = await axios.get("/diets")
             return dispatch({
-                type: "GET_DIET",
+                type: GET_DIET,
                 payload: res.data,
             })
         } catch (error) {
@@ -72,7 +73,7 @@ export function getDiet() {
 }
 
 export function postRecipe(payload){
-    return async function (dispatch){
+    return async function (){
         try{
             const newRecipe = await axios.post("/recipes", payload);
             return newRecipe;
@@ -85,7 +86,7 @@ export function postRecipe(payload){
 //-----Filtrado
 export function filterbyDiet(payload) {
     return {
-        type: "FILTER_BY_DIET",
+        type: FILTER_BY_DIET,
         payload,
     }
 };
@@ -94,14 +95,14 @@ export function filterbyDiet(payload) {
 //-----Ordenamiento
 export function orderByAlphabet(payload) {
     return {
-        type: "ORDER_BY_ALPHABET",
+        type: ORDER_BY_ALPHABET,
         payload,
     }
 };
 
 export function orderByScore(payload) {
     return {
-        type: "ORDER_BY_SCORE",
+        type: ORDER_BY_SCORE,
         payload, 
     }
 }
@@ -123,13 +124,20 @@ export function createRecipe(payload) {
 
 export function clearDetail() {
     return {
-        type: "CLEAR_DETAIL"
+        type: CLEAR_DETAIL
     }
 }
 
 export function clearRecipes() {
     return {
-        type: "CLEAR_RECIPES",
+        type: CLEAR_RECIPES,
         payload: []
     }
+}
+
+export function paginatedAction(payload) {
+    return {
+        type: PAGINATED_ACTION,
+        payload,
+    };
 }

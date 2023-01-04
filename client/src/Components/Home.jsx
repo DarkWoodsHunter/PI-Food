@@ -50,9 +50,11 @@ export default function Home () {
 
     return (
         <div>
-            <SearchBar></SearchBar>
             <div>
-
+                <SearchBar></SearchBar>
+            </div>
+            
+            <div>
                 <div>
                     <select name="alphabetical" onChange={(event) => handleOrderAlphabetic(event)} defaultValue="default">
                         <option value="default" disable>Alphabetical Order</option>

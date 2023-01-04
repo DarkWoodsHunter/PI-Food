@@ -7,7 +7,7 @@ export default function Paginated () {
     const dispatch = useDispatch();
     const recipes = useSelector(state => state.recipes)
     const recipePerPage = useSelector(state => state.recipePerPage)
-    const currentPage = useSelector(state => state.currentPage)
+    //const currentPage = useSelector(state => state.currentPage)
 
     const pageNumbers = [];
     const allRecipes = recipes?.length;
