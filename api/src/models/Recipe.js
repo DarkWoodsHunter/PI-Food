@@ -7,9 +7,9 @@ module.exports = (sequelize) => {
 
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
     },
 
     name: {
@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
 
     healthScore:{
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
     },
 
     image: {
@@ -32,8 +32,8 @@ module.exports = (sequelize) => {
     },
 
     steps: {
-      type: DataTypes.TEXT,
-      allowNull: true
+      type: DataTypes.ARRAY(DataTypes.JSON),
+      allowNull: true,
     },
     
   });

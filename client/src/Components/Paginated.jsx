@@ -1,5 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { paginatedAction } from "../Actions";
 
+
+export default function Paginated () {
+    const dispatch = useDispatch();
+    const recipes = useSelector(state => state.recipes)
+    const recipePerPage = useSelector(state => state.recipePerPage)
+    const currentPage = useSelector(state => state.currentPage)
+
+    const pageNumbers = [];
+    const allRecipes = recipes?.length;
+
+    const handlePaginated = (event) => {
+        dispatch(paginatedAction(parseInt(event.target.innerHTML)))
+    }
+
+    for (let i = 1; i <= Math.ceil(allRecipes / recipePerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    return (
+        <div>
+            <ul>
+                {pageNumbers?.map((current) => {
+                    return <button onClick={handlePaginated} key={current}>{current}</button>
+                })}
+            </ul>
+        </div>
+    )
+}
+
+/**
 export default function paginated({recipesPage, allRecipes, paged, setPage, page}) {
     const [input, setInput] = useState;
 
@@ -44,4 +76,4 @@ export default function paginated({recipesPage, allRecipes, paged, setPage, page
             <button onClick={goFoward()} disabled={totalPages === totalPages.length}> ⮞ </button>
         </div>
     )
-}
+} **/

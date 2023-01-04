@@ -1,5 +1,19 @@
 import axios from "axios";
 
+export const GET_RECIPES = "GET_RECIPES";
+export const GET_RECIPE_BY_NAME = "GET_RECIPE_BY_NAME";
+export const GET_RECIPE_DETAILS = "GET_RECIPE_DETAILS";
+export const GET_DIET = "GET_DIET";
+export const POST_RECIPE = "POST_RECIPE"
+export const FILTER_BY_DIET = "FILTER_BY_DIET";
+export const ORDER_BY_ALPHABET = "ORDER_BY_ALPHABET";
+export const ORDER_BY_SCORE = "ORDER_BY_SCORE";
+//export const CREATE_RECIPE = "CREATE_RECIPE";
+export const CLEAR_DETAIL = "CLEAR_DETAIL";
+export const CLEAR_RECIPES = "CLEAR_RECIPES";
+
+
+
 export function getRecipes() {
     return async function(dispatch){
         try {
@@ -9,11 +23,11 @@ export function getRecipes() {
                 payload: res.data,
             });
         } catch (error){
-            console.log(error);
+            console.log("error in Action getRecipes");
         }
     }
 };
-
+//-----SEARCH BAR
 export function getRecipeByName(name) {
     return async function(dispatch){
         try {
@@ -37,25 +51,38 @@ export function getRecipeByDetail(detail) {
                 payload: res.data,
             })
         } catch (error) {
-            console.log(error);
+            console.log("Error in Action getRecipeByDetail", error);
         }
     }
 }
 
+//-----Formulario
 export function getDiet() {
     return async function(dispatch){
         try{
-            const res = await axios.get(`/types`)
+            const res = await axios.get(`/diets`)
             return dispatch({
                 type: "GET_DIET",
-                payload: res.data.map(dat => dat.name),
+                payload: res.data,
             })
         } catch (error) {
-            console.log(error);
+            console.log("Error in Actions getDiet",error);
         }
     } 
 }
 
+export function postRecipe(payload){
+    return async function (dispatch){
+        try{
+            const newRecipe = await axios.post("/recipes", payload);
+            return newRecipe;
+        } catch (error) {
+            console.log("Error in Actions postRecipe", error)
+        }
+    }
+}
+
+//-----Filtrado
 export function filterbyDiet(payload) {
     return {
         type: "FILTER_BY_DIET",
@@ -63,6 +90,8 @@ export function filterbyDiet(payload) {
     }
 };
 
+
+//-----Ordenamiento
 export function orderByAlphabet(payload) {
     return {
         type: "ORDER_BY_ALPHABET",
@@ -76,7 +105,7 @@ export function orderByScore(payload) {
         payload, 
     }
 }
-
+/**
 export function createRecipe(payload) {
     return async function(dispatch){
         try {
@@ -90,9 +119,17 @@ export function createRecipe(payload) {
         }
     }
 }
+**/
 
 export function clearDetail() {
     return {
         type: "CLEAR_DETAIL"
+    }
+}
+
+export function clearRecipes() {
+    return {
+        type: "CLEAR_RECIPES",
+        payload: []
     }
 }

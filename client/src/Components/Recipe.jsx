@@ -1,28 +1,28 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 
-export default function Recipe ({id, image, name, healthScore, diets}) {
+export default function Recipe({id, image, name, healthScore, diets}){
+    const dispatch = useDispatch();
+
     return (
         <div>
-            <link to={`/home/${id}`}>
+            <Link to={`/home/${id}`}>
                 <div>
-                    <img src={image} alt="Receta" width="300px"/>
                     <h3>{name}</h3>
+                    <image src={image} alt="Recipe" width="300px"/>
                     <div>
-                        <label>HealthScore: <span>{healthScore}</span></label>
+                        <label>Health Score: <span>{healthScore}</span></label>
                     </div>
                     <label>Diets: </label>
-                    {
-                        diets?.map((diet) => (
-                            <p key={diet}>
-                                {diet.charAt(0).toUpperCase() + diet.slice(1)}
-                            </p>
-                        ))
-                    }
-
+                    {diets?.map((tdiet) => (
+                        <p key={tdiet}>
+                            {tdiet.charAt(0).toUpperCase() + tdiet.slice(1)}
+                        </p>
+                    ))}
                 </div>
-            </link>
+            </Link>
         </div>
     )
-
 }

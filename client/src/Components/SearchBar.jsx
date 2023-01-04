@@ -5,12 +5,11 @@ import { useDispatch } from "react-redux";
 
 export default function SearchBar() {
     const dispatch = useDispatch();
-    const [ input, setInput] = useState("");
+    const [input, setInput] = useState("");
 
     let handleChange = (event) => {
         event.preventDefault();
         setInput(event.target.value);
-        //dispatch(getRecipeByName(input));
     }
 
     let handleSummit = (event) => {
@@ -21,19 +20,14 @@ export default function SearchBar() {
 
     return (
         <div>
+
             <div>
                 <h1>PI FOOD</h1>
             </div>
+
             <div>
-                <input
-                    type="text"
-                    placeholder="Buscar por nombre..."
-                    value={input}
-                    onChange={event => handleChange(event)}>
-                </input>
-            <button
-            type="submit"
-            onClick={event => handleSummit(event)}>Buscar</button>
+                <input type="search" placeholder="Search Recipe" value={input} onChange={event => handleChange(event)}/>
+                <button type="submit" onClick={event => handleSummit(event)}>Buscar</button>
             </div>
         </div>
     )
