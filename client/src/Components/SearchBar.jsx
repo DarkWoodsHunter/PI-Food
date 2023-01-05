@@ -2,6 +2,39 @@ import React from "react";
 import { useState } from "react";
 import { getRecipeByName } from "../Actions";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
+
+const TopBar = styled.div`
+    background-color: #35495e;
+    padding: 30px;
+`
+
+const Searchbartitle = styled.h1`
+    color: white;
+    position: absolute;
+    left: 50px;
+    top: -18px;
+    padding: 0px;
+`
+const Barra = styled.div`
+    color: white;
+    position: absolute;
+    left: 1600px;
+    top: 18px;
+    padding: 0px;
+`
+
+const Searcher = styled.input`
+    border: none;
+    border-radius: 10px;
+    border: 3px solid #555;
+`
+
+const SearcherButton =styled.button`
+    border: none;
+    border-radius: 10px;
+`
 
 export default function SearchBar() {
     const dispatch = useDispatch();
@@ -21,14 +54,13 @@ export default function SearchBar() {
     return (
         <div>
 
-            <div>
-                <h1>PI FOOD</h1>
-            </div>
-
-            <div>
-                <input type="search" placeholder="Search Recipe" value={input} onChange={event => handleChange(event)}/>
-                <button type="submit" onClick={event => handleSummit(event)}>Search</button>
-            </div>
+            <TopBar>
+                <Searchbartitle>PI FOOD</Searchbartitle>
+                <Barra>
+                    <Searcher type="search" placeholder="Search Recipe" value={input} onChange={event => handleChange(event)}/>
+                    <SearcherButton type="submit" onClick={event => handleSummit(event)}>Search</SearcherButton>
+                </Barra>
+            </TopBar>
         </div>
     )
 }

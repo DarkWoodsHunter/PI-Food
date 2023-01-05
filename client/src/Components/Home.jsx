@@ -7,6 +7,72 @@ import SearchBar from "./SearchBar";
 import Paginated from "./Paginated";
 import { getRecipes, filterbyDiet, orderByAlphabet, orderByScore, getDiet, clearRecipes } from "../Actions/index";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const BarCongf = styled.div`
+    background-color: #35495e;
+    position: absolute;
+    left: 650px;
+    top: 100px;
+    width: 600px;
+    padding: 20px;
+    border-radius: 30px;
+`
+
+const FirstSelect = styled.select`
+    padding: 10px;
+    border-radius: 2em;
+    background-color: #347474;
+    border: none;
+    font-size: 12px;
+    margin: 5px;
+    &:hover .mySelect{
+        background-color:#ff7e67;
+    }
+    
+`
+
+const CreateRecipeDiv = styled.div`
+    background-color: #30490e;
+    position: absolute;
+    left: 800px;
+    top: 0px;
+    width: 150px;
+    border-radius: 30px;
+    padding: 20px;
+`
+const CreateRecipeButton = styled.button`
+    border: none;
+    color: rgb(0, 0, 0);
+    border-radius: 2em;
+    background-color:#347474;
+    margin: 5px;
+    padding: 5px;
+    font-size: 14px;
+    &:hover .myButton{
+        background-color:#ff7e67;
+    }
+`
+const DisplayRecipe = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+`
+const DisplayRecipieBlock = styled.div`
+    background-color: #35495e;
+    position: absolute;
+    left: 175px;
+    top: 280px;
+    width: 1290px;
+    height: 2000px;
+    padding: 20px;
+    border-radius: 30px;
+
+`
+
+
 
 export default function Home () {
 
@@ -73,20 +139,20 @@ export default function Home () {
             </div>
             
             <div>
-                <div>
-                    <select name="alphabetical" onChange={(event) => handleOrderAlphabetic(event)} defaultValue="default">
+                <BarCongf>
+                    <FirstSelect className="mySelect" name="alphabetical" onChange={(event) => handleOrderAlphabetic(event)} defaultValue="default">
                         <option value="default" disable>Alphabetical Order</option>
                         <option value='atoz'>A to Z</option>
                         <option value="zxc">Z to A</option>
-                    </select>
+                    </FirstSelect>
 
-                    <select name="numerical" onChange={(event) => handleOrderScore(event)} defaultValue="default">
+                    <FirstSelect className="mySelect" name="numerical" onChange={(event) => handleOrderScore(event)} defaultValue="default">
                         <option value="default" disable>Health Score Order</option>
                         <option value="asc">Ascendent Order</option>
                         <option value="desc">Descendent Order</option>
-                    </select>
+                    </FirstSelect>
 
-                    <select name="diets" onChange={(event) => handleFilterDiet(event)} defaultValue="default">
+                    <FirstSelect className="mySelect" name="diets" onChange={(event) => handleFilterDiet(event)} defaultValue="default">
                         <option value="default" disable>Select Diet...</option>
                         <option value="gluten free">Gluten Free</option>
                         <option value="ketogenic">Ketogenic</option>
@@ -98,14 +164,17 @@ export default function Home () {
                         <option value="primal">Primal</option>
                         <option value="fodmap friendly">Low fodmap</option>
                         <option value="whole 30">Whole 30</option>
-                    </select>
-                    <Link to="/home/recipes"><button>Create Recipe</button></Link>
-                </div>
+                    </FirstSelect>
+                    <CreateRecipeDiv>
+                        <Link to="/home/recipes"><CreateRecipeButton className="myButton">Create Recipe</CreateRecipeButton></Link>
+                    </CreateRecipeDiv>
+                    
+                </BarCongf>
 
                 <Paginated recipesPerPage={recipesPerPage} allRecipes={allRecipes.length} paginado={paginado} />
 
-                <div>
-                    <div>
+                <DisplayRecipieBlock>
+                    <DisplayRecipe>
                     {
                         currentRecipes?.map(recipe => 
                             <Recipe 
@@ -117,8 +186,8 @@ export default function Home () {
                             key={recipe.id}
                             />)
                         }
-                    </div>
-                </div>
+                    </DisplayRecipe>
+                </DisplayRecipieBlock>
 
             </div>
         </div>

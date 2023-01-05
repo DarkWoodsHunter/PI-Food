@@ -4,7 +4,63 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postRecipe, getDiet, clearDetail, getRecipes} from "../Actions/index";
+import styled from "styled-components";
 var number = 0;
+
+const GoBackButton = styled.button`
+    border: none;
+    color: rgb(0, 0, 0);
+    border-radius: 2em;
+    background-color:#347474;
+    margin: 5px;
+    padding: 5px;
+    font-size: 14px;
+    z-index: 4;
+    &:hover .myButton{
+        background-color:#ff7e67;
+    }
+`
+
+const ButtonConteiner = styled.div`
+    position:absolute;
+    left: 100px;
+    top: 50px;
+
+`
+
+const MainConteiner = styled.div`
+    background-color: #35495e;
+    position: absolute;
+    width: 1500px;
+    height: 100%;
+    border-radius: 30px;
+    left: 200px;
+    top: 100px;
+    z-index: 3;
+    display: flex;
+  justify-content: center;
+`
+
+const StyledForm = styled.form`
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  color: rgb(43, 43, 43);
+  margin-top: 30px;
+  width: 600px;
+  background-color: rgba(248, 179, 100);
+  border-radius: 5px;
+  border: solid rgb(231, 224, 224) 2px;
+  box-shadow: 0 0 4px #000000a8;
+  margin-bottom: 55px;
+  max-width: 80%;
+`
+
+const EleConteiner = styled.div`
+    background-color: #347474;
+`
 
 export default function CreateRecipe(){
     const dispatch = useDispatch();
@@ -138,11 +194,11 @@ export default function CreateRecipe(){
 
     return (
         <div>
-            <div>
-                <Link to="/home"><button>Home</button></Link>
-            </div>
-            <div>
-                <form onSubmit={(event) => handleSummit(event)}>
+            <ButtonConteiner>
+                <Link to="/home"><GoBackButton>Home</GoBackButton></Link>
+            </ButtonConteiner>
+            <MainConteiner>
+                <StyledForm onSubmit={(event) => handleSummit(event)}>
 
                     <div>
                         <h2>Create your Recipe</h2>
@@ -210,8 +266,8 @@ export default function CreateRecipe(){
                     </div>
 
                     <button type="summit">Create Recipe</button>
-                </form>
-            </div>
+                </StyledForm>
+            </MainConteiner>
         </div>
     )
 

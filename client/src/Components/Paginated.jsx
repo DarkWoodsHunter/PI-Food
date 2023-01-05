@@ -1,7 +1,38 @@
 import React from "react";
+import styled from "styled-components";
 //import { useDispatch, useSelector } from "react-redux";
 //import { paginatedAction } from "../Actions";
 
+const NavDiv = styled.div`
+    position: absolute;
+    left: 800px;
+    top: 200px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+    margin-bottom: 20px;
+`
+
+const ListAll = styled.li`
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 236, 236, 0.8);
+    color: hsl(0, 0%, 0%);
+    margin: 2px;
+    margin-block-end: 10px;
+    font-size: 17px;
+    display: inline;
+    align-items: flex-start;
+    justify-content: end;
+    cursor: pointer;
+    box-shadow: 0rem 0.1875rem 0.375rem rgb(68, 63, 53);
+`
+
+const StyledText = styled.a`
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px;
+`
 
 export default function Paginated ({recipesPerPage, allRecipes, paginado}) {
     /**
@@ -23,15 +54,15 @@ export default function Paginated ({recipesPerPage, allRecipes, paginado}) {
     }
 
     return (
-        <div>
+        <NavDiv>
             <ul>
                 {pageNumbers?.map((current) => {
-                    return <li className="current" key={current}>
-                        <a onClick={() => paginado(current)} key={current}>{current}</a>
-                    </li>
+                    return <ListAll className="current" key={current}>
+                        <StyledText onClick={() => paginado(current)} key={current}>{current}</StyledText>
+                    </ListAll>
                 })}
             </ul>
-        </div>
+        </NavDiv>
     )
 }
 
