@@ -11,7 +11,9 @@ export default function Recipe({id, image, name, healthScore, diets}){
             <Link to={`/home/${id}`}>
                 <div>
                     <h3>{name}</h3>
-                    <image src={image} alt="Recipe" width="300px"/>
+
+                    <img src={image} alt="Receta" width="300px"/>
+
                     <div>
                         <label>Health Score: <span>{healthScore}</span></label>
                     </div>

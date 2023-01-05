@@ -1,6 +1,6 @@
 const { Router } = require("express");
-const axios = require("axios");
 const {getBDdietInfo} = require ("./controllersRoutes");
+const DietTypes = require("./controllersRoutes")
 
 const router = Router();
 

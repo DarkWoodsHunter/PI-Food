@@ -1,31 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 
 import Recipe from "./Recipe";
 import SearchBar from "./SearchBar";
 import Paginated from "./Paginated";
 import { getRecipes, filterbyDiet, orderByAlphabet, orderByScore, getDiet, clearRecipes } from "../Actions/index";
+import { Link } from "react-router-dom";
 
 export default function Home () {
+
     const dispatch = useDispatch();
-    const allRecipes = useSelector((state) => state?.recipes)
-    //test
+    const allRecipes = useSelector((state) => state.recipes)
+    const [order, setOrder] = useState("");
 
     //-----Paginated
+
+    const [currentPage, setCurrentPage ] = useState(1);
+    const [recipesPerPage, setRecipesPerPage] = useState(9);
+    const indextLastRecipe = currentPage * recipesPerPage;
+    const indexFirstRecipe = indextLastRecipe - recipesPerPage;
+
+    const currentRecipes = allRecipes.slice(indexFirstRecipe, indextLastRecipe);
+
+    const paginado = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    }
+    /**
     const currentPage = useSelector(state => state.currentPage);
-    const recipesPage = useSelector(state => state.recipesPage);
-    const indexLastEle = currentPage * recipesPage;
-    const indexFistEle = indexLastEle - recipesPage;
+    const recipePerPage = useSelector(state => state.recipePerPage);
+
+    const indexLastEle = currentPage * recipePerPage;
+    const indexFistEle = indexLastEle - recipePerPage;
+
     const currentRecipes =allRecipes?.slice(indexFistEle, indexLastEle);
+    **/
 
     useEffect(() => {
-        if (currentRecipes.length === 0){
             dispatch(getRecipes())
             dispatch(getDiet())
-        }
-    }, [dispatch, currentRecipes])
+    }, [dispatch])
 
     const handleClick = (event) => {
         event.preventDefault()
@@ -41,11 +55,15 @@ export default function Home () {
     const handleOrderAlphabetic = (event) => {
         event.preventDefault()
         dispatch(orderByAlphabet(event.target.value))
+        setCurrentPage(1)
+        setOrder(`Ordenado ${event.target.value}`)
     }
 
     const handleOrderScore = (event) => {
         event.preventDefault()
         dispatch(orderByScore(event.target.value))
+        setCurrentPage(1)
+        setOrder(`Ordenado ${event.target.value}`)
     }
 
     return (
@@ -58,8 +76,8 @@ export default function Home () {
                 <div>
                     <select name="alphabetical" onChange={(event) => handleOrderAlphabetic(event)} defaultValue="default">
                         <option value="default" disable>Alphabetical Order</option>
-                        <option value="atoz">A to Z</option>
-                        <option value="no atoz">Z to A</option>
+                        <option value='atoz'>A to Z</option>
+                        <option value="zxc">Z to A</option>
                     </select>
 
                     <select name="numerical" onChange={(event) => handleOrderScore(event)} defaultValue="default">
@@ -73,24 +91,23 @@ export default function Home () {
                         <option value="gluten free">Gluten Free</option>
                         <option value="ketogenic">Ketogenic</option>
                         <option value="vegetarian">Vegetarian</option>
-                        <option value="lacto vegetarian">Lacto Vegetarian</option>
-                        <option value="ovo vegetarian">Ovo Vegetarian</option>
+                        <option value="lacto ovo vegetarian">Lacto Ovo Vegetarian</option>
                         <option value="vegan">Vegan</option>
                         <option value="pescatarian">Pescatarian</option>
-                        <option value="paleo">Paleo</option>
+                        <option value="paleolithic">Paleo</option>
                         <option value="primal">Primal</option>
-                        <option value="low fodmap">Low fodmap</option>
+                        <option value="fodmap friendly">Low fodmap</option>
                         <option value="whole 30">Whole 30</option>
                     </select>
-                    <button onClick={handleClick}>Reload</button>
+                    <Link to="/home/recipes"><button>Create Recipe</button></Link>
                 </div>
 
-                <Paginated />
+                <Paginated recipesPerPage={recipesPerPage} allRecipes={allRecipes.length} paginado={paginado} />
 
                 <div>
                     <div>
-                        {currentRecipes?.length < 1 ? <loading />
-                        :currentRecipes?.map(recipe => 
+                    {
+                        currentRecipes?.map(recipe => 
                             <Recipe 
                             id={recipe.id} 
                             image={recipe.image}
@@ -102,6 +119,7 @@ export default function Home () {
                         }
                     </div>
                 </div>
+
             </div>
         </div>
     )

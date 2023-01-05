@@ -6,7 +6,9 @@ const {API_KEY} = process.env;
 
 const getRecipeInfo = async () => {
     try {
-        const apiInfo = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+        //const apiInfo = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+
+        const apiInfo = await axios.get(`https://run.mocky.io/v3/84b3f19c-7642-4552-b69c-c53742badee5`);
 
         const data = await apiInfo.data.results;
 
@@ -92,18 +94,6 @@ const postNewRecipe = async (objRecipe) => {
     }
 }
 
-const deleteRecipe = async (id) => {
-    try {
-        const deletedRecipe = await Recipe.findByPk(id);
-        await Recipe.destroy({
-            where: {id: id},
-        });
-        return deletedRecipe;
-    } catch (error) {
-        console.log("Error in deleteRecipe")
-    }
-}
-
 const updateRecipe = async (id, info) => {
     try {
         await Recipe.update(info, {
@@ -131,7 +121,7 @@ const createDietBD = async() => {
             "low fodmap",
             "whole 30",
             ];
-        dietTypes.forEach( (ele) => {
+        dietTypes.forEach((ele) => {
             Diet.findOrCreate({
                 where: {name: ele},
             });
@@ -146,7 +136,7 @@ const getBDdietInfo = async () => {
         const diets = await Diet.findAll();
         return diets
     } catch (error) {
-        console.error("Error in getBSdietInfo")
+        console.error("Error in getBSdietInfo", error)
     }
 };
 
@@ -155,7 +145,6 @@ module.exports = {
     getBDdietInfo,
     getAllRecipesInfo,
     createDietBD,
-    deleteRecipe,
     updateRecipe,
     postNewRecipe,
 }

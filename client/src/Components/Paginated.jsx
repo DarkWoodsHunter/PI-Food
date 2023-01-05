@@ -1,22 +1,24 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { paginatedAction } from "../Actions";
+//import { useDispatch, useSelector } from "react-redux";
+//import { paginatedAction } from "../Actions";
 
 
-export default function Paginated () {
+export default function Paginated ({recipesPerPage, allRecipes, paginado}) {
+    /**
     const dispatch = useDispatch();
     const recipes = useSelector(state => state.recipes)
     const recipePerPage = useSelector(state => state.recipePerPage)
     //const currentPage = useSelector(state => state.currentPage)
-
-    const pageNumbers = [];
     const allRecipes = recipes?.length;
-
+    **/
+    const pageNumbers = [];
+    
+    /**
     const handlePaginated = (event) => {
         dispatch(paginatedAction(parseInt(event.target.innerHTML)))
     }
-
-    for (let i = 1; i <= Math.ceil(allRecipes / recipePerPage); i++) {
+    **/
+    for (let i = 1; i <= Math.ceil(allRecipes / recipesPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -24,7 +26,9 @@ export default function Paginated () {
         <div>
             <ul>
                 {pageNumbers?.map((current) => {
-                    return <button onClick={handlePaginated} key={current}>{current}</button>
+                    return <li className="current" key={current}>
+                        <a onClick={() => paginado(current)} key={current}>{current}</a>
+                    </li>
                 })}
             </ul>
         </div>

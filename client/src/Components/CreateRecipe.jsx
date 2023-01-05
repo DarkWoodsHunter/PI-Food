@@ -1,16 +1,19 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useHistory, Link } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postRecipe, getDiet, getRecipes, clearDetail} from "../Actions/index";
-let number = 0;
-
+import { postRecipe, getDiet, clearDetail, getRecipes} from "../Actions/index";
+var number = 0;
 
 export default function CreateRecipe(){
     const dispatch = useDispatch();
+
+    const dietType = useSelector((state) => state.dietType);
+
     const history = useHistory();
     const allRecipes = useSelector(state => state.recipes);
-    const dietType = useSelector(state => state.diets);
+    
 
     const [instructions, setInstructions] = useState("");
 
@@ -29,41 +32,20 @@ export default function CreateRecipe(){
         dispatch(getDiet())
     }, [dispatch]);
 
-    let validUrl = /(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/;
-    function validate(input) {
-        let errors = [];
     
-        if(!input.name) {
-            errors.name = "Enter a correct Name";
-        } else if(allRecipes.find((ele) => ele.name.toLowerCase().includes(input.name.toLowerCase()))) {
-            errors.name = "That name already exist";
-        } else if(input.summary.lenght < 10 || !input.summary){
-            errors.summary = "Enter a correct Summary";
-        } else if (input.healthScore < 1 || input.healthScore > 100 || !input.healthScore) {
-            errors.healthScore = "Enter a correct healthScore";
-        } else if (!input.image || !validUrl.test(input.image)){
-            errors.image = "Enter a valid URL";
-        } else if (input.steps.lenght === 0){
-            errors.steps = "Enter valid Recipe Steps";
-        } else if (input.diet.lenght < 1){
-            errors.diet = "Select at least 1 Diet"
-        }
-        let result = Object.keys(errors).length > 0? errors: true;
-        return result;
-    }
 
     const handleChange = (event) => {
         setInput({
-            ...input,
-            [event.target.name]: event.target.value
+          ...input,
+          [event.target.name]: event.target.value
         })
         setErrors(
-            validate({
+          validate({
             ...input,
-            [event.target.name]: event.target.value
-            })
+            [event.target.name]: event.target.value,
+          })
         );
-    }
+      }
 
     const handleChangeStep = (event) => {
         const value = event.target.value;
@@ -102,10 +84,9 @@ export default function CreateRecipe(){
     const handleSummit = (event) => {
         event.preventDefault();
         setErrors(validate(input));
-        const error = validate(input);
+        let error = validate(input);
 
         if (Object.values(error).length !== 0) {
-
         } else {
             dispatch(postRecipe(input));
             setInput({
@@ -117,13 +98,49 @@ export default function CreateRecipe(){
                 diets: [],
             });
             history.push("/home");
+            alert("Recipe Create succesfuly")
             dispatch(clearDetail());
             dispatch(getRecipes());
         }
     }
 
+    let validateUrl = /(http(s?):)([/|.|\w|\s|-])*.(?:jpg|gif|png)/;
+
+
+    function validate(input) {
+        let errors = {};
+
+    if (!input.name.trim()) {
+      errors.name = "Enter a correct name";
+    } else if (
+      allRecipes.find((e) => e.name.toLowerCase().trim().includes(input.name.toLowerCase().trim()))
+    ) {
+      errors.name = `The ${input.name} already exists`;
+    } else if (
+      input.summary.length < 10 ||
+      input.summary.trim() === ""
+    ) {
+      errors.summary = "Enter a correct summary";
+    } else if (input.healthScore === "" || input.healthScore < 1 || input.healthScore > 100) {
+      errors.healthScore = "Enter a correct health score";
+    } else if (input.steps.length === 0) {
+      errors.steps = "Enter a correct steps"
+    } else if (!input.image || !validateUrl.test(input.image)) {
+      errors.image = "This is not a valid URL";
+    } else if (input.diets.length < 1) {
+      errors.diets = "Select one or more diets";
+    } else if (input.diets.length > 4) {
+      errors.diets = "Your recipe can not have more than 4 diets!";
+    }
+    let result = Object.keys(errors).length > 0 ? errors : true;
+    return result;
+  }
+
     return (
         <div>
+            <div>
+                <Link to="/home"><button>Home</button></Link>
+            </div>
             <div>
                 <form onSubmit={(event) => handleSummit(event)}>
 
@@ -150,7 +167,7 @@ export default function CreateRecipe(){
 
                     <div>
                         <label>Image: </label>
-                        <input type="number" value={input.image} name="image" onChange={(event) => handleChange(event)} placeholder="Enter a URL..."/>
+                        <input type="text" value={input.image} name="image" onChange={(event) => handleChange(event)} placeholder="Enter a URL..."/>
                         {errors.image && <h4>{errors.image}</h4>}
                     </div>
 
@@ -158,15 +175,15 @@ export default function CreateRecipe(){
                         <label>Steps: </label>
                         <div>
                             <textarea type="text" value={input.steps.step} name="steps" onChange={handleChangeStep} placeholder="Insert a Step..."></textarea>
-                            <button type="button" onClick={handleAddStep}>Add Step</button>
-                            
                         </div>
                         <div>
-                            {input.steps.map((ele, ida) => {
-                                return <div>
-                                    <p key={ida}>{`${ele.step}`}</p>
-                                    </div>
-                            })}
+                            <button type="button" onClick={handleAddStep}>Add Step</button>    
+                        </div>
+                        <div>
+                            {input.steps.map((object, i) => {
+                                return( 
+                                        <li key={i}>{`${object.step}`}</li>
+                            )})}
                         </div>
                         {errors.steps && <h4>{errors.steps}</h4>}
                     </div>
@@ -174,12 +191,20 @@ export default function CreateRecipe(){
                     <div>
                         <label>Diets: </label>
                         <div>
-                            <select type="text"  onChange={(event) => handleSelect(event)} defaultValue="default">
+                            <select type="text" onChange={(event) => handleSelect(event)} defaultValue="default">
                                 <option disabled value="default" > Select Diets...</option>
+                                
                                 {dietType?.map((tdiet) => (
-                                    <option key={tdiet.id}>{tdiet.name}</option>
+                                    <option value={tdiet.name} key={tdiet.id}>{tdiet.name}</option>
                                 ))}
                             </select>
+                            <div>
+                                {input.diets.map((tdiet) => (
+                                    <div key={tdiet}>
+                                        <div><h4>{tdiet}</h4></div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         {errors.diet && <h4>{errors.diet}</h4>}
                     </div>
@@ -191,7 +216,6 @@ export default function CreateRecipe(){
     )
 
 }
-
 
 /**
 const URL = (string) => {
